@@ -24,14 +24,15 @@ if __name__ == '__main__':
     model_type = "vit_h"
     # 单卡推理
     device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
-    sam = sam_model_registry[model_type](checkpoint= sam_checkpoint)
-    sam.to(device=device)
-    predictor = SamPredictor(sam)
 
     for _data_name in ['CAMO', 'COD10K', 'CHAMELEON']:  # iterate all datasets
         data_path = '/root/bachelor-thesis/Dataset/TestDataset/{}/'.format(_data_name)
         save_path = '/root/autodl-tmp/res/SAM_COD/{}/'.format(_data_name)
 
+        sam = sam_model_registry[model_type](checkpoint= sam_checkpoint)
+        sam.to(device=device)
+        predictor = SamPredictor(sam)
+        
         # Load images and corresponding ground truth from data_path/Imgs and data_path/GT respectively
         img_path = os.path.join(data_path, 'Imgs')
         gt_path = os.path.join(data_path, 'GT')
